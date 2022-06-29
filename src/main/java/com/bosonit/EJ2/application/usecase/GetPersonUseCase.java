@@ -116,4 +116,6 @@ public class GetPersonUseCase implements GetPersonPort {
     }
 
     //////////////////////////CRITERIA BUILDER////////////////
+
+
 }
