@@ -75,7 +75,7 @@ public class GetPersonUseCase implements GetPersonPort {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<PersonaEnt> getData(HashMap<String, Object> conditions) {
+    public List<PersonaEnt> getData(HashMap<String, String> conditions) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<PersonaEnt> query = cb.createQuery(PersonaEnt.class);
         Root<PersonaEnt> root = query.from(PersonaEnt.class);
@@ -83,7 +83,7 @@ public class GetPersonUseCase implements GetPersonPort {
         conditions.forEach((field,value) ->
                 {
                     switch (field){
-                        case "user":
+                        case "usuario":
                             predicates.add(cb.equal(root.get(field),(String) value));
                             break;
                         case "name":
@@ -94,16 +94,17 @@ public class GetPersonUseCase implements GetPersonPort {
                             break;
                         case "created_date":
                             String dateCondition=(String) conditions.get("dateCondition");
+                            Date fecha = parseDate(value);
                             switch (dateCondition)
                             {
                                 case "after":
-                                    predicates.add(cb.greaterThan(root.<Date>get(field),(Date)value));
+                                    predicates.add(cb.greaterThan(root.<Date>get(field),fecha));
                                     break;
-                                case "less":
-                                    predicates.add(cb.lessThan(root.<Date>get(field),(Date)value));
+                                case "before":
+                                    predicates.add(cb.lessThan(root.<Date>get(field),fecha));
                                     break;
                                 case "equal":
-                                    predicates.add(cb.equal(root.<Date>get(field),(Date)value));
+                                    predicates.add(cb.equal(root.<Date>get(field),fecha));
                                 break;
                             }
                             break;
@@ -116,6 +117,14 @@ public class GetPersonUseCase implements GetPersonPort {
     }
 
     //////////////////////////CRITERIA BUILDER////////////////
-
+    private Date parseDate(String value) {
+        Date creationDate;
+        try{
+            creationDate = new SimpleDateFormat("yyyy-MM-dd").parse(value);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        return creationDate;
+    }
 
 }

@@ -1,12 +1,12 @@
 package com.bosonit.EJ2.infraestructure.controller;
 
 
-import com.bosonit.EJ2.exceptions.NotFoundException;
+
 import com.bosonit.EJ2.application.port.GetPersonPort;
+
+
 import com.bosonit.EJ2.domain.PersonaEnt;
 import com.bosonit.EJ2.infraestructure.DTOs.OutPutPersonaDTO;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -48,8 +48,8 @@ public class GetPerson {
 
     //Criteria Builder
 
-    @GetMapping("/getData")
-    public List<PersonaEnt> getPersonPage(@RequestParam HashMap<String,Object> conditions) {
+   @GetMapping("/getData")
+    public List<PersonaEnt> getPersonPage(@RequestParam HashMap<String,String> conditions) {
         return getPersonPort.getData(conditions);
     }
 }

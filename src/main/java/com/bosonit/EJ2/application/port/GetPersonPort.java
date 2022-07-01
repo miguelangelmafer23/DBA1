@@ -17,7 +17,7 @@ public interface GetPersonPort {
 
     public Page<PersonaEnt> getAllPersonPage(Integer pageNumber, Integer pageSize);
 
-    public List<PersonaEnt> getData(HashMap<String, Object> conditions);
+    public List<PersonaEnt> getData(HashMap<String, String> conditions);
 
 
 }
