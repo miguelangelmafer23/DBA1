@@ -49,8 +49,8 @@ public class GetPerson {
     //Criteria Builder
 
    @GetMapping("/getData")
-    public List<PersonaEnt> getPersonPage(@RequestParam HashMap<String,String> conditions) {
-        return getPersonPort.getData(conditions);
+    public List<PersonaEnt> getPersonPage(@RequestParam HashMap<String,String> conditions,@RequestParam (required = false) String sort ) {
+        return getPersonPort.getData(conditions,sort);
     }
 }
 

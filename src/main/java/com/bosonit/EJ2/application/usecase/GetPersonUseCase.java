@@ -75,10 +75,12 @@ public class GetPersonUseCase implements GetPersonPort {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<PersonaEnt> getData(HashMap<String, String> conditions) {
+    public List<PersonaEnt> getData(HashMap<String, String> conditions,String sort) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<PersonaEnt> query = cb.createQuery(PersonaEnt.class);
         Root<PersonaEnt> root = query.from(PersonaEnt.class);
+       //funcionando el orderby
+
         List<Predicate> predicates = new ArrayList<>();
         conditions.forEach((field,value) ->
                 {
@@ -111,7 +113,13 @@ public class GetPersonUseCase implements GetPersonPort {
                     }
 
                 });
-
+        if(sort.equals("name")){
+            query.orderBy(cb.asc(root.get("name")));
+        }
+        if(sort.equals("surname")){
+            query.orderBy(cb.asc(root.get("surname")));
+        }
+        
         query.select(root).where(predicates.toArray(new Predicate[predicates.size()]));
         return entityManager.createQuery(query).getResultList();
     }
